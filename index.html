@@ -1,1 +1,125 @@
-This page is a placeholder to test the server if it is allowed by Fortinet.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuonky</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: monospace;
+    background: #0b0f14;
+    color: #00ff99;
+}
+
+/* top bar */
+header {
+    padding: 10px;
+    background: #111823;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    background: #1c2633;
+    color: #00ff99;
+    border: none;
+    padding: 8px 10px;
+    margin: 4px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #273445;
+}
+
+/* layout */
+#menu {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+}
+
+#gameFrame {
+    width: 100%;
+    height: 90vh;
+    border: none;
+    display: none;
+}
+
+/* search */
+input {
+    padding: 6px;
+    background: black;
+    color: #00ff99;
+    border: 1px solid #00ff99;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>🎮 CHUONKY</div>
+    <input id="search" placeholder="Search games..." oninput="filterGames()">
+</header>
+
+<div id="menu"></div>
+
+<iframe id="gameFrame"></iframe>
+
+<script>
+const games = [
+"1v1lol","2048","adarkroom","asciispace","asteroids","astray","backcountry",
+"baldisbasics","basketballlegends","basketballstars","basketbrosio","basketrandom",
+"bitlife","bounceback","boxingrandom","breakout","btd4","chess","chromedino",
+"cookieclicker","crossyroad","cubefield","cuttherope","deathrun3d","doodlejump",
+"doom","drift","drifthunters","drivemad","ducklife","ducklife2","ducklife3",
+"ducklife4","ducklife5","earntodie","eggycar","evilglitch","flappybird",
+"fruitninja","geometrydash","googlesnake","grindcraft","hextris","highwaytraffic",
+"learntofly","littlealchemy","monkeymart","motox3m","ovo","pacman","paperio",
+"q1k3","r3","retrobowl","run3","slitherio","slope","slope2","snake","stack",
+"stackball","stickman-hook","stickmangolf","subwaysurfers","tetris","tunnelrush",
+"vex3","vex4","vex5","vex6","zombsroyale"
+];
+
+const menu = document.getElementById("menu");
+const frame = document.getElementById("gameFrame");
+
+function loadGame(name){
+    frame.src = `gfiles/${name}/index.html`;
+    frame.style.display = "block";
+    menu.style.display = "none";
+}
+
+function back(){
+    frame.style.display = "none";
+    menu.style.display = "grid";
+    frame.src = "";
+}
+
+function render(list){
+    menu.innerHTML = "";
+    list.forEach(g => {
+        let btn = document.createElement("button");
+        btn.innerText = g;
+        btn.onclick = () => loadGame(g);
+        menu.appendChild(btn);
+    });
+}
+
+function filterGames(){
+    let val = document.getElementById("search").value.toLowerCase();
+    render(games.filter(g => g.toLowerCase().includes(val)));
+}
+
+render(games);
+</script>
+
+</body>
+</html>
